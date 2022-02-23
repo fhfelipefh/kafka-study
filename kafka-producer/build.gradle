@@ -18,3 +18,16 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+task uberjar(type: Jar) {
+    manifest.attributes(['Main-Class': 'ProducerMain'])
+
+    duplicatesStrategy = 'include'
+
+    from sourceSets.main.output
+
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+}
