@@ -50,11 +50,15 @@ public class ProducerMain {
     properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
     properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
+
     //create producer
       KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
 
     //create recorder
-      ProducerRecord<String, String> recordProducer = new ProducerRecord<>("first_topic", messages.get(0));
+      String key = "id_0";
+      ProducerRecord<String, String> recordProducer = new ProducerRecord<>("first_topic", key,messages.get(0));
+
+      logger.info("Key" + key); //log the key
 
       producer.send(recordProducer, new Callback() {
         public void onCompletion(RecordMetadata metadata, Exception exception) {
