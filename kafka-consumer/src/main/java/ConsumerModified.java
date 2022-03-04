@@ -1,5 +1,3 @@
-import com.sun.org.slf4j.internal.Logger;
-import com.sun.org.slf4j.internal.LoggerFactory;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
@@ -7,13 +5,13 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
 public class ConsumerModified {
 
   public static void main(String[] args) {
 
-    Logger logger = LoggerFactory.getLogger(ConsumerModified.class);
 
     String bootstrapServers = "localhost:9092";
     String groupId = "group1";
@@ -35,8 +33,17 @@ public class ConsumerModified {
     //subscribe consumer to our topics
     consumer.subscribe(Collections.singleton(topic));
 
+    // assign
+    TopicPartition partition = new TopicPartition(topic, 0);
+    long offsetToReadFrom = 15L;
+
+    int numberOfMessagesToRead = 5;
+    boolean keepOnReading = true;
+    int numberOfMessagesReadSoFar = 0;
+
+    System.out.println("Consumer is now reading messages from offset " + offsetToReadFrom);
     //pool for new data
-    while (true) {
+    while (keepOnReading) {
 
      ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
 
@@ -44,6 +51,18 @@ public class ConsumerModified {
        System.out.println("Key"+record.key());
        System.out.println("Value"+record.value());
        System.out.println("Partition"+record.partition());
+       System.out.println("Offset"+record.offset());
+       System.out.println("Timestamp"+record.timestamp());
+       System.out.println("Topic"+record.topic());
+       System.out.println("==========================");
+       numberOfMessagesReadSoFar++;
+       if (numberOfMessagesReadSoFar >= numberOfMessagesToRead) {
+         keepOnReading = false;
+         break;
+       }
+
+       System.out.println("========================== exit");
+
      }
     }
 
