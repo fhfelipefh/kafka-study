@@ -3,6 +3,10 @@
 .idea
 .gradle
 gradlew
+consumerKey.txt
+consumerSecret.txt
+secret.txt
+token.txt
 
 # Compiled class file
 *.class

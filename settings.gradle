@@ -1,4 +1,5 @@
 rootProject.name = 'kafka-study'
 include 'kafka-producer'
 include 'kafka-consumer'
+include 'twitter-kafka'
 

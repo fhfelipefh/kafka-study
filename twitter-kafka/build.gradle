@@ -3,13 +3,13 @@ plugins {
 }
 
 group 'com.fhfelipefh'
+version 'unspecified'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    //hbc-core
     implementation 'com.twitter:hbc-core:2.2.0'
     testImplementation 'org.slf4j:slf4j-simple:1.7.36'
     implementation 'org.apache.kafka:kafka-clients:3.1.0'
