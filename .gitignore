@@ -1,6 +1,7 @@
 # file: ~/.gitignore_global
 .DS_Store
 .idea
+.build
 .gradle
 gradlew
 consumerKey.txt
